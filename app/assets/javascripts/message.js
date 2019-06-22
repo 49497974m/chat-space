@@ -6,7 +6,7 @@ $(function() {
                       ${message.user_name}
                     </div>
                     <div class="upper-message__date">
-                      ${message.create_at}
+                      ${message.date}
                     </div>
                   </div>
                   <div class="lower-meesage">
@@ -16,10 +16,13 @@ $(function() {
                 </div>`
     return html;
   }
+  function scroll() {
+    $('.messages').animate({scrollTop: $('.message')[0].scrollHeight});
+  }
   $('#new_message').on('submit',function(e) {
     e.preventDefault();
     var formData = new FormData(this);
-    var url = window.location.href + '/messages'
+    var href = window.location.href 
     $.ajax({
       url: href,
       type: "POST",
@@ -30,8 +33,15 @@ $(function() {
     })
     .done(function(data){
       var html = buildHTML(data);
-      $('.message').append(html)
-      $('.lower-message__content').val('')
+      $('.messages').append(html)
+      $('.form__message-box').val('')
+      scroll()
+    })
+    .fail(function() {
+      alert('error');
+    })
+    .always(function() {
+      $('.form__message__submit').prop('disabled', false);
     })
   })
 });
