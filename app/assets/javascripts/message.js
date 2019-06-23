@@ -34,7 +34,7 @@ $(function() {
     })
     .done(function(data){
       var html = buildHTML(data);
-      $('.messages').append(html)
+      $('.messages').append(html);
       $('#new_message')[0].reset();
       scroll()
     })
