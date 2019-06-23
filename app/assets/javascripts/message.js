@@ -27,13 +27,13 @@ $(function() {
     $.ajax({
       url: href,
       type: "POST",
-      data: formData,
+      params: formData,
       dataType: 'json',
       processData: false,
       contentType: false
     })
-    .done(function(data){
-      var html = buildHTML(data);
+    .done(function(params){
+      var html = buildHTML(params);
       $('.messages').append(html);
       $('#new_message')[0].reset();
       scroll()
