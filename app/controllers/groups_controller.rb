@@ -10,7 +10,7 @@ class GroupsController < ApplicationController
   end
   def edit
   end
-  
+
   def create
     @group = Group.new(group_params)
     if @group.save
