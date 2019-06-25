@@ -1,53 +1,23 @@
 $(function() {
   var buildMessageHTML = function(message) {
-    if (message.content && message.image.url) {
-      var html = `<div class="message" date-id= ${message.id} >
+    var content = message.conttent ? `${message.content}` : "";
+    var image = message.image ? `${message.image}` : "";
+    var html = `<div class="message" date-id= ${message.id} >
                     <div class="upper-message">
                       <div class="upper-message__user-name">
                         ${message.user_name}
                       </div>
                       <div class="upper-message__date">
-                        ${message.date}
+                        ${message.created_at}
                       </div>
                     </div>
                     <div class="lower-meesage">
                     <div class="lower-message__content">
-                      ${message.content}
+                      ${content}
                     </div>
-                    <img scr= "${message.image.url}" class="lower-message__image" >
-                    </div>
-                  </div>`
-    } else if (message.content) {
-      var html = `<div class="message" date-id= ${message.id} >
-                    <div class="upper-message">
-                      <div class="upper-message__user-name">
-                        ${message.user_name}
-                      </div>
-                      <div class="upper-message__date">
-                        ${message.date}
-                      </div>
-                    </div>
-                    <div class="lower-meesage">
-                    <div class="lower-message__content">
-                      ${message.content}
-                    </div>
+                    <img scr= "${image}" class="lower-message__image" >
                     </div>
                   </div>`
-    } else if (message.image.url) {
-      var html = `<div class="message" date-id= ${message.id} >
-                    <div class="upper-message">
-                      <div class="upper-message__user-name">
-                        ${message.user_name}
-                      </div>
-                      <div class="upper-message__date">
-                        ${message.date}
-                      </div>
-                    </div>
-                    <div class="lower-meesage">
-                      <img scr= "${message.image.url}" class="lower-message__image" >
-                    </div>
-                  </div>`
-    };
     return html;
   };
 
@@ -58,7 +28,7 @@ $(function() {
                       ${message.user_name}
                     </div>
                     <div class="upper-message__date">
-                      ${message.date}
+                      ${message.created_at}
                     </div>
                   </div>
                   <div class="lower-meesage">
@@ -76,11 +46,11 @@ $(function() {
   $('#new_message').on('submit',function(e) {
     e.preventDefault();
     var formData = new FormData(this);
-    var href = window.location.href 
+    var href = $(this).attr('action')
     $.ajax({
       url: href,
       type: "POST",
-      date: formData,
+      data: formData,
       dataType: 'json',
       processData: false,
       contentType: false
@@ -97,12 +67,14 @@ $(function() {
     .always(function() {
       $('.form__message__submit').prop('disabled', false);
     })
-  })
+  });
 
   var reloadMssages = function() {
-    last_message_id = $('.message,:last').date('id');
+    if (location.pathname.match(/\/groups\/\d+\/messages/)) {
+    last_message_id = $('.message:last').date('id');
+    last_message_group_id = $('.message:last').date('group-id');
     $.ajax({
-      url: '/api/messages',
+      url: `/groups/${last_message_group_id}/api/messages`,
       type: 'GET',
       dataType: 'json',
       data: {id: last_message_id}
@@ -119,6 +91,7 @@ $(function() {
     })
     .fail(function() {
     });
+    };
     setInterval(reloadMssages, 5000);
   };
 });
