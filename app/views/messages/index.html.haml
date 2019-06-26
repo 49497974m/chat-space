@@ -5,7 +5,7 @@
   .chat
     .header
       .left-header
-        .left-header__title{date: {"group-id": "#{@group.id}"}}
+        .left-header__title{data: {"group-id": @group.id}}
           = @group.name
         %ul.left-header__members
           Member：
