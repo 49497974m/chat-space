@@ -43,15 +43,6 @@ $(function() {
         users.forEach(function(user) {
           appendList(user);
         })
-          $("#user-search-result").on("click", ".chat-group-user__btn--add", function() {
-            var user_id = $(this).data('user-id');
-            var user_name = $(this).data('user-name');
-            appendUser(user_id, user_name);
-            $(this).parent().remove();
-          });
-            $("#chat-group-users").on("click", ".chat-group-user__btn--remove", function() {
-              $(this).parent().remove();
-            })
       }
       else {
         appendErrMesgHTML("一致するユーザーはいません");
@@ -61,4 +52,14 @@ $(function() {
       alert('ユーザー検索に失敗しました');
     })
   })
+  $("#user-search-result").on("click", ".chat-group-user__btn--add", function() {
+    console.log('done')
+    var user_id = $(this).data('user-id');
+    var user_name = $(this).data('user-name');
+    $(this).parent().remove();
+    appendUser(user_id, user_name);
+  });
+    $("#chat-group-users").on("click", ".chat-group-user__btn--remove", function() {
+      $(this).parent().remove();
+    })
 })
