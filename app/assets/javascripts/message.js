@@ -46,7 +46,6 @@ $(function() {
       $('.form__message__submit').prop('disabled', false);
     })
   });
-});
 
 $(function() {
   var reloadMessages = function() {
@@ -74,4 +73,5 @@ $(function() {
     };
   };
   setInterval(reloadMessages, 5000);
+});
 });
